@@ -7,10 +7,13 @@ import org.springframework.stereotype.Component;
 public class AssembleUsersResponse {
 
     public static UserResponse usersResponse(User user){
-        return new UserResponse(
-                user.getUuid(),
-                user.getFirstName(),
-                user.getEmail()
-        );
+        return UserResponse.builder()
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .email(user.getEmail())
+                .phoneNumber(user.getPhoneNumber())
+                .createdAt(user.getCreatedAt())
+                .updatedAt(user.getUpdatedAt())
+                .build();
     }
 }

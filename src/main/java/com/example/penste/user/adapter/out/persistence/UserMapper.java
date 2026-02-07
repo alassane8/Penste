@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserMapper {
 
-    public User mapToUserEntity(UserEntity user) {
+    public User mapToUser(UserEntity user) {
         return User.builder()
                 .uuid(user.getUuid())
                 .firstName(user.getFirstName())
@@ -14,6 +14,19 @@ public class UserMapper {
                 .email(user.getEmail())
                 .phoneNumber(user.getPhoneNumber())
                 .createdAt(user.getCreatedAt())
+                .updatedAt(user.getUpdatedAt())
+                .build();
+    }
+
+    public UserEntity mapToUserEntity(User user) {
+        return UserEntity.builder()
+                .uuid(user.getUuid())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .email(user.getEmail())
+                .phoneNumber(user.getPhoneNumber())
+                .createdAt(user.getCreatedAt())
+                .updatedAt(user.getUpdatedAt())
                 .build();
     }
 }

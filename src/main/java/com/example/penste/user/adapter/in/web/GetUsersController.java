@@ -15,13 +15,13 @@ import java.util.List;
 import static com.example.penste.infrastructure.web.config.EndpointsConfig.SERVER_API_V1;
 
 @RestController
-@RequestMapping(SERVER_API_V1)
 @RequiredArgsConstructor
+@RequestMapping(SERVER_API_V1)
 public class GetUsersController {
 
     private final GetUserUseCase getUserUseCase;
 
-    @GetMapping(EndpointsConfig.GET_USERS)
+    @GetMapping(EndpointsConfig.USERS)
     public ResponseEntity<List<UserResponse>> getUsers()
     {
         var users = getUserUseCase.getAllUsers()
