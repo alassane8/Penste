@@ -1,30 +1,34 @@
 package com.example.penste.user.adapter.in.web;
 
+import com.example.penste.infrastructure.web.config.EndpointsConfig;
 import com.example.penste.user.adapter.in.web.dto.AssembleUsersResponse;
 import com.example.penste.user.adapter.in.web.dto.UserResponse;
 import com.example.penste.user.application.port.in.GetUserUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import static com.example.penste.infrastructure.web.config.EndpointsConfig.SERVER_API_V1;
+
 @RestController
-@RequestMapping("/api")
+@RequestMapping(SERVER_API_V1)
 @RequiredArgsConstructor
 public class GetUsersController {
 
     private final GetUserUseCase getUserUseCase;
 
-    @GetMapping("/users")
+    @GetMapping(EndpointsConfig.GET_USERS)
     public ResponseEntity<List<UserResponse>> getUsers()
     {
-        var usersPage = getUserUseCase.getAllUsers();
-        var dtoList = usersPage.stream().map(AssembleUsersResponse::usersResponse).toList();
+        var users = getUserUseCase.getAllUsers()
+                .stream()
+                .map(AssembleUsersResponse::usersResponse)
+                .toList();
 
-        return ResponseEntity.ok(dtoList);
+        return ResponseEntity.ok(users);
     }
 }
