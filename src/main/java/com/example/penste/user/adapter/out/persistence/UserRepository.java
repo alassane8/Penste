@@ -3,7 +3,12 @@ package com.example.penste.user.adapter.out.persistence;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
-public interface UserRepository extends JpaRepository<UserEntity, String> {
-    boolean existsByEmail(String email);
+public interface UserRepository extends JpaRepository<UserEntity, Long> {
+
+    Boolean existsByEmail(String email);
+
+    Optional<UserEntity> findByUuid(String uuid);
 }
