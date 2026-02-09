@@ -1,4 +1,4 @@
-package com.example.penste.user.adapter.in.web.dto;
+package com.example.penste.user.adapter.in.web.dto.assemble;
 
 import com.example.penste.user.domain.model.User;
 import org.springframework.stereotype.Component;

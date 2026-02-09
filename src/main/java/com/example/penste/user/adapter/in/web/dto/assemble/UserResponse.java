@@ -1,4 +1,4 @@
-package com.example.penste.user.adapter.in.web.dto;
+package com.example.penste.user.adapter.in.web.dto.assemble;
 
 import com.example.penste.user.domain.model.User;
 import lombok.AllArgsConstructor;
@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 public class UserResponse {
+    String uuid;
     String firstName;
     String lastName;
     String email;
@@ -21,6 +22,7 @@ public class UserResponse {
 
     public static UserResponse mapToResponse(User user) {
         return UserResponse.builder()
+                .uuid(user.getUuid())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .phoneNumber(user.getPhoneNumber())
