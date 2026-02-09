@@ -10,7 +10,10 @@ import java.util.List;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class UserAdapter {
+public class UserAdapter implements
+        CreateUserPort,
+        GetUserPort
+{
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
@@ -26,7 +29,7 @@ public class UserAdapter {
         return userRepository.save(userEntity);
     }
 
-    public boolean existsByEmail(String email) {
+    public Boolean existsByEmail(String email) {
         log.debug("Adapter: Vérification de l'existence de l'email: {}", email);
         return userRepository.existsByEmail(email);
     }
