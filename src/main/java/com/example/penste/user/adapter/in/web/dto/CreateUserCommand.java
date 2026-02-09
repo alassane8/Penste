@@ -39,6 +39,9 @@ public class CreateUserCommand {
         if (!isValidEmail(requestBody.getEmail())) {
             throw new InvalidCommandException("L'email n'est pas valide");
         }
+        if (requestBody.getPhoneNumber() == null || requestBody.getPhoneNumber().trim().isEmpty()) {
+            throw new InvalidCommandException("Le numéro de téléphone est obligatoire");
+        }
     }
 
     private static boolean isValidEmail(String email) {

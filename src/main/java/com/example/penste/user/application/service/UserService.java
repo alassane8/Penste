@@ -58,6 +58,7 @@ public class UserService implements
                 .firstName(command.getFirstName())
                 .lastName(command.getLastName())
                 .email(command.getEmail())
+                .phoneNumber(command.getPhoneNumber())
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 .build();
