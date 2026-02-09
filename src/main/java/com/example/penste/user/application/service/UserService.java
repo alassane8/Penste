@@ -1,13 +1,16 @@
 package com.example.penste.user.application.service;
 
+import com.example.penste.user.adapter.in.web.dto.UpdateUserCommand;
 import com.example.penste.user.adapter.in.web.dto.CreateUserCommand;
-import com.example.penste.user.adapter.out.persistence.CreateUserPort;
-import com.example.penste.user.adapter.out.persistence.GetUserPort;
+import com.example.penste.user.application.port.out.CreateUserPort;
+import com.example.penste.user.application.port.out.GetUserPort;
 import com.example.penste.user.adapter.out.persistence.UserEntity;
 import com.example.penste.user.adapter.out.persistence.UserMapper;
 import com.example.penste.user.application.port.in.CreateUserUseCase;
 import com.example.penste.user.application.port.in.GetUserUseCase;
+import com.example.penste.user.application.port.in.UpdateUserUseCase;
 import com.example.penste.user.domain.exception.UserAlreadyExistsException;
+import com.example.penste.user.domain.exception.UserNotFoundException;
 import com.example.penste.user.domain.model.User;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +25,8 @@ import java.util.UUID;
 @AllArgsConstructor
 public class UserService implements
         GetUserUseCase,
-        CreateUserUseCase {
+        CreateUserUseCase,
+        UpdateUserUseCase {
 
     private final CreateUserPort createUserPort;
     private final GetUserPort getUserPort;
@@ -47,13 +51,13 @@ public class UserService implements
     public User createUser(CreateUserCommand command) {
         log.info("Service: User creation with email: {}", command.getEmail());
 
-        if (createUserPort.existsByEmail(command.getEmail())) {
+        if (getUserPort.existsByEmail(command.getEmail())) {
             throw new UserAlreadyExistsException(
                     "User with email " + command.getEmail() + " already exists"
             );
         }
 
-        User user = User.builder()
+        UserEntity user = UserEntity.builder()
                 .uuid(UUID.randomUUID().toString())
                 .firstName(command.getFirstName())
                 .lastName(command.getLastName())
@@ -70,5 +74,36 @@ public class UserService implements
         log.info("Service: Successful user creation, UUID: {}", savedUser.getUuid());
 
         return savedUser;
+    }
+
+    @Override
+    public User updateUser(UpdateUserCommand command) {
+        log.info("Service: Updating user with id: {}", command.getUuid());
+
+        UserEntity existingUser = getUserPort.findById(command.getUuid())
+                .orElseThrow(() -> new UserNotFoundException(
+                        "User with id " + command.getUuid() + " not found"
+                ));
+
+        if (!existingUser.getEmail().equals(command.getEmail()) &&
+                getUserPort.existsByEmail(command.getEmail())) {
+            throw new UserAlreadyExistsException(
+                    "User with email " + command.getEmail() + " already exists"
+            );
+        }
+
+        UserEntity updatedUser = existingUser.toBuilder()
+                .firstName(command.getFirstName())
+                .lastName(command.getLastName())
+                .email(command.getEmail())
+                .phoneNumber(command.getPhoneNumber())
+                .updatedAt(LocalDateTime.now())
+                .build();
+
+        UserEntity savedEntity = createUserPort.saveUser(updatedUser);
+
+        log.info("Service: User updated successfully with id: {}", savedEntity.getUuid());
+
+        return userMapper.mapToUser(savedEntity);
     }
 }
