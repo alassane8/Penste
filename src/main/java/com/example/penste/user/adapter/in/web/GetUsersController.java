@@ -1,8 +1,8 @@
 package com.example.penste.user.adapter.in.web;
 
 import com.example.penste.infrastructure.web.config.EndpointsConfig;
-import com.example.penste.user.adapter.in.web.dto.AssembleUsersResponse;
-import com.example.penste.user.adapter.in.web.dto.UserResponse;
+import com.example.penste.user.adapter.in.web.dto.assemble.AssembleUsersResponse;
+import com.example.penste.user.adapter.in.web.dto.assemble.UserResponse;
 import com.example.penste.user.application.port.in.GetUserUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
