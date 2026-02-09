@@ -12,7 +12,7 @@ public class CreateUserCommand {
     private final String firstName;
     private final String lastName;
     private final String email;
-    private final String password;
+    private final String phoneNumber;
 
     public static CreateUserCommand createCommandFrom(CreateUserRequestBody requestBody) {
         validateRequestBody(requestBody);
@@ -21,7 +21,7 @@ public class CreateUserCommand {
                 .firstName(requestBody.getFirstName())
                 .lastName(requestBody.getLastName().trim())
                 .email(requestBody.getEmail().trim().toLowerCase())
-                .password(requestBody.getPassword())
+                .phoneNumber(requestBody.getPhoneNumber().trim())
                 .build();
     }
 
@@ -38,6 +38,9 @@ public class CreateUserCommand {
         }
         if (!isValidEmail(requestBody.getEmail())) {
             throw new InvalidCommandException("L'email n'est pas valide");
+        }
+        if (requestBody.getPhoneNumber() == null || requestBody.getPhoneNumber().trim().isEmpty()) {
+            throw new InvalidCommandException("Le numéro de téléphone est obligatoire");
         }
     }
 

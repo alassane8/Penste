@@ -1,7 +1,8 @@
 package com.example.penste.user.application.service;
 
 import com.example.penste.user.adapter.in.web.dto.CreateUserCommand;
-import com.example.penste.user.adapter.out.persistence.UserAdapter;
+import com.example.penste.user.adapter.out.persistence.CreateUserPort;
+import com.example.penste.user.adapter.out.persistence.GetUserPort;
 import com.example.penste.user.adapter.out.persistence.UserEntity;
 import com.example.penste.user.adapter.out.persistence.UserMapper;
 import com.example.penste.user.application.port.in.CreateUserUseCase;
@@ -23,14 +24,15 @@ public class UserService implements
         GetUserUseCase,
         CreateUserUseCase {
 
-    private final UserAdapter userAdapter;
+    private final CreateUserPort createUserPort;
+    private final GetUserPort getUserPort;
     private final UserMapper userMapper;
 
     @Override
     public List<User> getAllUsers() {
         log.info("Service: loading all existing users in progress");
 
-        List<UserEntity> userEntities = userAdapter.findAllUsers();
+        List<UserEntity> userEntities = getUserPort.findAllUsers();
 
         List<User> users = userEntities.stream()
                 .map(userMapper::mapToUser)
@@ -45,7 +47,7 @@ public class UserService implements
     public User createUser(CreateUserCommand command) {
         log.info("Service: User creation with email: {}", command.getEmail());
 
-        if (userAdapter.existsByEmail(command.getEmail())) {
+        if (createUserPort.existsByEmail(command.getEmail())) {
             throw new UserAlreadyExistsException(
                     "User with email " + command.getEmail() + " already exists"
             );
@@ -56,11 +58,12 @@ public class UserService implements
                 .firstName(command.getFirstName())
                 .lastName(command.getLastName())
                 .email(command.getEmail())
+                .phoneNumber(command.getPhoneNumber())
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 .build();
 
-        UserEntity savedEntity = userAdapter.saveUser(user);
+        UserEntity savedEntity = createUserPort.saveUser(user);
 
         User savedUser = userMapper.mapToUser(savedEntity);
 
