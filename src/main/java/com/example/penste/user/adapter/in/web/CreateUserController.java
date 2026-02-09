@@ -3,7 +3,7 @@ package com.example.penste.user.adapter.in.web;
 import com.example.penste.infrastructure.web.config.EndpointsConfig;
 import com.example.penste.user.adapter.in.web.dto.CreateUserCommand;
 import com.example.penste.user.adapter.in.web.dto.CreateUserRequestBody;
-import com.example.penste.user.adapter.in.web.dto.UserResponse;
+import com.example.penste.user.adapter.in.web.dto.assemble.UserResponse;
 import com.example.penste.user.application.port.in.CreateUserUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
