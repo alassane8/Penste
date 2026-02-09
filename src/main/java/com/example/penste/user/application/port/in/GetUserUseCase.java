@@ -6,8 +6,8 @@ import java.util.List;
 
 public interface GetUserUseCase {
 
-    /* Get all users
-    @return list of users
-     */
+    /**Get all users
+     * @return list of users
+     **/
     List<User> getAllUsers();
 }
