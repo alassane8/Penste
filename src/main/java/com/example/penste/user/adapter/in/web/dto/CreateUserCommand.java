@@ -12,7 +12,7 @@ public class CreateUserCommand {
     private final String firstName;
     private final String lastName;
     private final String email;
-    private final String password;
+    private final String phoneNumber;
 
     public static CreateUserCommand createCommandFrom(CreateUserRequestBody requestBody) {
         validateRequestBody(requestBody);
@@ -21,7 +21,7 @@ public class CreateUserCommand {
                 .firstName(requestBody.getFirstName())
                 .lastName(requestBody.getLastName().trim())
                 .email(requestBody.getEmail().trim().toLowerCase())
-                .password(requestBody.getPassword())
+                .phoneNumber(requestBody.getPhoneNumber().trim())
                 .build();
     }
 
