@@ -1,0 +1,7 @@
+target/           # dossier de build Maven, on rebuild dans le container
+.git
+.env              # jamais dans l'image
+*.log
+.DS_Store
+.idea             # config IntelliJ
+*.iml
